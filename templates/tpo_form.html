@@ -1,0 +1,14 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create TPO</title>
+</head>
+<body>
+    <h1>Create TPO instance</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create TPO instance</button>
+    </form>
+</body>
+</html>

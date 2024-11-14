@@ -1,0 +1,14 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create class</title>
+</head>
+<body>
+    <h1>Create Class instance</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create class instance</button>
+    </form>
+</body>
+</html>

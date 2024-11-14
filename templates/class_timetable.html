@@ -1,0 +1,42 @@
+<html lang ="en">
+<head>
+    <meta charset="UTF-8">
+    <title> Class data </title>
+</head>
+<body>
+    <p>Debugging: {{ class }}</p>
+    <h1> Class data </h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Class Name</th>
+                <th>Phase</th>
+                <th>Date</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Venue</th>
+                <th>Total no. of students</th>
+                <th>Instructor</th>
+                <th>Batch Name</th>
+                <th>Batch ID</th>
+                <th>Class created at</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{class.class_name}}</td>
+                <td>{{class.phase}}</td>
+                <td>{{class.date}}</td>
+                <td>{{class.start_time}}</td>
+                <td>{{class.end_time}}</td>
+                <td>{{class.venue}}</td>
+                <td>{{class.total_students}}</td>
+                <td>{{class.instructor}}</td>
+                <td>{{class.batch_name}}</td>
+                <td>{{class.batch_id}}</td>
+                <td>{{class.class_created_at}}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
