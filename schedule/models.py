@@ -139,6 +139,19 @@ class HRPerformance(models.Model):
     round = models.CharField(choices=round_choices, max_length=40, null=False, blank=False)
     remark = models.TextField(null = True, blank = True)
     score = models.PositiveIntegerField(null = False, blank=False)
+    
+    
+class StudentConfig(models.Model):
+    name = models.CharField(max_length=400)
+    branch = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    mobile_number = models.CharField(max_length=10)
+    roll_number = models.CharField(max_length=60, unique=True)
+    admin = models.IntegerField(choices=[(0, 'No'), (1, 'Yes')], default=0)
+    password = models.CharField(max_length=128, default='defaultpassword')  # Temporary default
+
+    def __str__(self):
+        return f"{self.name} - {self.roll_number}"
 
 
 
