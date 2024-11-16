@@ -21,7 +21,10 @@ urlpatterns = [
     path('schedule/create/form', views.schedule_view, name='schedule_form'),
     path('classes/create/form', views.class_view, name='classes_form'),
     path('tpo/create/form', views.tpo_view, name='tpo_form'),
-
+    
+    path('/signup',views.index_4,name='signup'),
+    path('/student',views.index,name='filter'),
+    path('/login',views.index_2_1,name='login'),
     path('schedule/view/<str:class_id>/', views.view_class_timetable, name= 'view_class_timetable'),
 
     path('', views.ClassesGetCreate.as_view()),
