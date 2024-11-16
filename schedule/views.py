@@ -3,29 +3,25 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .forms import UserForm, ScheduleForm, StudentForm, TPOForm, InstructorForm, ClassForm
 from .models import Users, Instructor, Student, Classes, Schedule, TPO
+from rest_framework import generics
+from .serializers import ClassesSerializer
 # from django.contrib.auth.hashers import make_password
 
-# from .forms import ShowTimetable
-# Create your views here.
-# takes request and gives a response
-# it is a request handler
-
-# log errors --> remove try --->>> Done
 @csrf_exempt
 def create_user(request):
     if request.method == "POST":
-        name = request.POST.get('name')
+        username = request.POST.get('name')
         email = request.POST.get('email')
         role = request.POST.get('role')
         phone_no = request.POST.get('phone_no')
         # password = make_password(request.POST.get('password'))  #hashed password
         user_created_at = request.POST.get('user_created_at')
 
-        if not all([name, role, email]):
+        if not all([username, role, email]):
             return JsonResponse({'message' : 'Provide required fields'}, status=400)
 
         try:
-            user = Users.objects.create(name = name, role = role, email = email, phone_no = phone_no, user_created_at = user_created_at)
+            user = Users.objects.create(username = username, role = role, email = email, phone_no = phone_no, user_created_at = user_created_at)
             return JsonResponse({'message' : "User created succcessfully"}, status= 201)
 
         except Exception as e:
@@ -207,7 +203,7 @@ def create_classes(request):
 
 def view_class_timetable(request, class_id):
     clas = get_object_or_404(Classes, class_id = class_id)
-    return render(request, r"C:\winter_proj\templates\class_timetable.html", {'class' : clas})
+    return render(request, "class_timetable.html", {'class' : clas})
 
 
 def user_view(request):
@@ -270,4 +266,12 @@ def class_view(request):
     else:
         form = ClassForm()
     
-    return render(request, r"C:\winter_proj\templates\class_from.html", {'form' : form})
+    return render(request, "class_form.html", {'form' : form})
+
+class ClassesGetCreate(generics.ListCreateAPIView):
+    queryset = Classes.objects.all()
+    serializer_class = ClassesSerializer
+
+class ClassesGetRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Classes.objects.all()
+    serializer_class = ClassesSerializer

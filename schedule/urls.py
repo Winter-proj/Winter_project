@@ -22,7 +22,10 @@ urlpatterns = [
     path('classes/create/form', views.class_view, name='classes_form'),
     path('tpo/create/form', views.tpo_view, name='tpo_form'),
 
-    path('schedule/view/<str:class_id>/', views.view_class_timetable, name= 'view_class_timetable')
+    path('schedule/view/<str:class_id>/', views.view_class_timetable, name= 'view_class_timetable'),
+
+    path('', views.ClassesGetCreate.as_view()),
+    path('<str:class_id>/', views.ClassesGetRetrieveUpdateDestroy.as_view())
     # path('event/<int:event_id>/', views.get_event, name='get_event'),
     # path('instructor/<int:instructor_id>/timetable/', views.get_instructor_timetable, name='get_instructor_timetable'),
     # path('student/<int:student_id>/timetable/', views.get_student_timetable, name='get_student_timetable')

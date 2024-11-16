@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-+v8u#ye))n!f)utjk0^-&qjh!+^)gd33hjkapx3qw2auvafn=%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['10.0.2.2', '127.0.0.1']
 
 
 # Application definition
@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'schedule'
+    'schedule',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -127,3 +128,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DEFAULT_UUID_FIELD = 'django.db.models.UuidField'
 
 AUTH_USER_MODEL = 'schedule.Users'
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES' : ['rest_framework.renderers.JSONRenderer',
+                                    'rest_framework.renderers.BrowsableAPIRenderer',]
+    }

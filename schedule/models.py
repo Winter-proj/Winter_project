@@ -3,35 +3,32 @@ from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 import uuid
 
-# branched ke namm save ---> Done
-#  user select kr ska hai  --->Done
-# foreign key se krna hai, nhi ho toh manytoone field ----> Done
-# add venue in classes also, add the tables for phase, crt and things under it. !!!!! ---> Done
-
 
 class Users(AbstractUser):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     Role_Choices = [('student', 'Student'),
                     ('instructor', 'Instructor'),
                     ('hod', 'HOD'),
-                    ('tpo', 'TPO')]
-    username = None
-    name = models.CharField(max_length= 100, unique=False)
+                    ('tpo', 'TPO'),
+                    ('admin', 'Admin')]
+    username = models.CharField(max_length=150, unique=False, null=False, blank=False)
     email = models.EmailField(max_length=150, unique=True,blank=False)
     role  = models.CharField(max_length=25,null=False, blank=False, choices=Role_Choices)
     phone_no = models.PositiveIntegerField(null=True, blank= True)
     user_created_at = models.DateTimeField(auto_now_add=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['role']
+    REQUIRED_FIELDS = ['role', 'username']
     
+    def __str__(self):
+        return f"{self.username} is {self.role}"
 
 class Instructor(models.Model):
     instructor = models.OneToOneField(Users, on_delete=models.CASCADE, related_name='instructor_profile')
     ins_created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.instructor.name}"
+        return f"{self.instructor.username}"
 
 
 class Classes(models.Model):
@@ -86,7 +83,7 @@ class TPO(models.Model):
     tpo_created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.tpo.name}"
+        return f"{self.tpo.username} of {self.branch}"
 
 class Student(models.Model):
     branch_choices = [('CSE', 'CSE'),
@@ -112,6 +109,9 @@ class Student(models.Model):
     tpo = models.ForeignKey(TPO, on_delete=models.DO_NOTHING)
     phase = models.IntegerField(null=False, choices=phase_choices)
     stu_created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.student.username} having roll number {self.rtu_roll_no}"
 
 class TechPerformance(models.Model):
     round_choices = [('R1', 'round1' ), ('R2', 'round2'), ('R3', 'round3'), ('R4', 'round4')]

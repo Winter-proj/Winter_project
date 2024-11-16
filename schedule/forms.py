@@ -4,8 +4,8 @@ from .models import Users, Classes,  Instructor, Student, Schedule, TPO
 class UserForm(forms.ModelForm):
     class Meta:
         model = Users
-        fields = ['name', 'email', 'role', 'phone_no']
-        widgets = {'name' : forms.TextInput(attrs={'placeholder' : 'Name'}),
+        fields = ['username', 'email', 'role', 'phone_no']
+        widgets = {'username' : forms.TextInput(attrs={'placeholder' : 'Name'}),
                     'email' : forms.EmailInput(attrs={'placeholder' : 'Enter your email'}),
                     'role' : forms.Select(choices=[('student', 'Student'),('instructor', 'Instructor'),('hod', 'HOD'),('tpo', 'TPO')]),
                     'phone_no' : forms.TextInput(attrs={'placeholder': 'Phone number'})}
