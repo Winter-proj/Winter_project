@@ -247,6 +247,67 @@ def student_view(request):
     
     return render(request, "student_form.html", {'form' : form})
 
+#45_code
+# View for saving student data
+def index_2_1(request):
+    if request.method == 'POST':
+         name = request.POST.get('name')
+         roll_number = request.POST.get('roll')
+         password = request.POST.get('password')
+         students = StudentConfig.objects.filter(roll_number=roll_number,password=password)
+         return JsonResponse(students)
+    return JsonResponse({"stats":"your password and roll number is wrong"})
+         
+def index_4(request):
+    if request.method == 'POST':
+        try:
+            name = request.POST.get('name')
+            email = request.POST.get('email')
+            mobile_number = request.POST.get('number')
+            branch = request.POST.get('branch')
+            roll_number = request.POST.get('roll')
+            password = request.POST.get('password')
+            # Create and save the StudentConfig instance
+            student = StudentConfig(
+                name=name,
+                branch=branch,
+                email=email,
+                mobile_number=mobile_number,
+                roll_number=roll_number,
+                admin=0,
+                password=password
+            )
+            student.save()
+
+            return redirect('/add')
+
+        except Exception as e:
+            print(f"Error: {e}")
+            return HttpResponse("Error saving data.")
+
+    return redirect('/login')
+
+# View to display all students and filter based on a dynamic input
+def index(request):
+    if request.method == 'POST':
+        filter = request.POST.get('filter')  # Example: 'branch=cse'
+        filter_2 = filter.split('=')
+
+        # Dynamically apply the filter
+        if len(filter_2) == 2:
+            field, value = filter_2
+            students = StudentConfig.objects.filter(**{field: value})  # Dynamically filter based on field and value
+        else:
+            students = StudentConfig.objects.filter(branch='none')  # If the filter is incorrect, show all students
+
+        return render(request, 'index.html', {'students': students})
+
+    # Default view (if no POST request is made)
+    students = StudentConfig.objects.filter(branch='none')  # You can change this to a default filter, e.g., branch='none'
+    return render(request, 'index.html', {'students': students})
+
+# View for rendering add student form
+    
 def schedule_view(request):
     if request.method == "POST":
         form = ScheduleForm(request.POST)
@@ -275,3 +336,4 @@ class ClassesGetCreate(generics.ListCreateAPIView):
 class ClassesGetRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Classes.objects.all()
     serializer_class = ClassesSerializer
+   
