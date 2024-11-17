@@ -8,7 +8,8 @@ class UserForm(forms.ModelForm):
         widgets = {'username' : forms.TextInput(attrs={'placeholder' : 'Name'}),
                     'email' : forms.EmailInput(attrs={'placeholder' : 'Enter your email'}),
                     'role' : forms.Select(choices=[('student', 'Student'),('instructor', 'Instructor'),('hod', 'HOD'),('tpo', 'TPO')]),
-                    'phone_no' : forms.TextInput(attrs={'placeholder': 'Phone number'})}
+                    'phone_no' : forms.TextInput(attrs={'placeholder': 'Phone number'}),
+                    }
 
 class InstructorForm(forms.ModelForm):
     class Meta:
@@ -35,7 +36,9 @@ class StudentForm(forms.ModelForm):
                     'tpo' : forms.Select(attrs={'placeholder' : 'TPO'}),
                     'phase' : forms.Select(choices=[(1, 'one'),
                                                     (2, 'two'),
-                                                    (3, 'three')])}
+                                                    (3, 'three')]),
+                    'password' : forms.TextInput(attrs={'placeholder' : 'Password'})}
+        
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['student'].queryset = Users.objects.filter(role='student')
