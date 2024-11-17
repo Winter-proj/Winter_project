@@ -1,8 +1,8 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render,get_object_or_404, redirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .forms import UserForm, ScheduleForm, StudentForm, TPOForm, InstructorForm, ClassForm
-from .models import Users, Instructor, Student, Classes, Schedule, TPO
+from .models import Users, Instructor, Student, Classes, Schedule, TPO, StudentConfig
 from rest_framework import generics
 from .serializers import ClassesSerializer
 # from django.contrib.auth.hashers import make_password
