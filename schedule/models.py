@@ -102,6 +102,7 @@ class Student(models.Model):
     student = models.OneToOneField(Users, on_delete=models.CASCADE, related_name= 'Student_profile')
     rtu_roll_no = models.CharField(max_length=30, unique=True, null = False, blank= False)
     branch = models.CharField(max_length= 25, null=False, choices=branch_choices)
+    password = models.CharField(max_length=20, null= False, blank=False, default="sober") #Temporary default
     batch_id = models.IntegerField(null=False)
     batch_name = models.CharField(max_length=10, null=False)
     attendance = models.PositiveIntegerField(default=0)
@@ -152,14 +153,3 @@ class StudentConfig(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.roll_number}"
-
-
-
-
-
-
-
-
-
-
-
