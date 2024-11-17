@@ -1,11 +1,11 @@
 from django.shortcuts import render,get_object_or_404, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .forms import UserForm, ScheduleForm, StudentForm, TPOForm, InstructorForm, ClassForm
 from .models import Users, Instructor, Student, Classes, Schedule, TPO, StudentConfig
 from rest_framework import generics
 from .serializers import ClassesSerializer
-# from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password
 
 @csrf_exempt
 def create_user(request):
@@ -44,7 +44,8 @@ def create_instructor(request):
                                 'email' :instructor.instructor.email,
                                 'role' :instructor.instructor.role,
                                 'phone_no' :instructor.instructor.phone_no,
-                                'ins_created_at' : instructor.ins_created_at})   
+                                'ins_created_at' : instructor.ins_created_at,
+                                })   
             return JsonResponse({'data' : data}, safe=False)
 
         except Exception as e:
@@ -93,6 +94,7 @@ def create_student(request):
             branch = request.POST.get('branch')
             phase = request.POST.get('phase')
             tpo = request.POST.get('tpo')
+            password = make_password(request.POST.get('password'))
             stu_created_at = request.POST.get('stu_created_at')
             data = []
 
@@ -109,7 +111,8 @@ def create_student(request):
                                                         score=score,
                                                         tpo = tpo,
                                                         branch = branch,
-                                                        stu_created_at = stu_created_at)
+                                                        stu_created_at = stu_created_at,
+                                                        password = password)
                     data.append({'name' : student.student.name, 
                                 'rtu_roll_no' : student.student.rtu_roll_no,
                                 'email' : student.student.email,
@@ -117,6 +120,7 @@ def create_student(request):
                                 'phone_no' : student.student.phone_no,
                                 'branch' : student.branch,
                                 'score' : student.score,
+                                'password' : student.password,
                                 'batch_name' : student.batch_name,
                                 'batch_id' : student.batch_id,
                                 'attendance' : student.attendance,
@@ -251,13 +255,13 @@ def student_view(request):
 # View for saving student data
 def index_2_1(request):
     if request.method == 'POST':
-         name = request.POST.get('name')
-         roll_number = request.POST.get('roll')
-         password = request.POST.get('password')
-         students = StudentConfig.objects.filter(roll_number=roll_number,password=password)
-         return JsonResponse(students)
+        name = request.POST.get('name')
+        roll_number = request.POST.get('roll')
+        password = request.POST.get('password')
+        students = StudentConfig.objects.filter(roll_number=roll_number,password=password)
+        return JsonResponse(students)
     return JsonResponse({"stats":"your password and roll number is wrong"})
-         
+    
 def index_4(request):
     if request.method == 'POST':
         try:
@@ -336,4 +340,3 @@ class ClassesGetCreate(generics.ListCreateAPIView):
 class ClassesGetRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Classes.objects.all()
     serializer_class = ClassesSerializer
-   
